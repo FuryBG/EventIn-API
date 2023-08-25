@@ -1,0 +1,13 @@
+Dal/bin/
+Dal/obj/
+Domain/bin/
+Domain/obj/
+PollApi/bin/
+PollApi/obj/
+Service/bin/
+Service/obj/
+Dal/*.csproj.user
+Domain/*.csproj.user
+PollApi/*.csproj.user
+Service/*.csproj.user
+.vs/
