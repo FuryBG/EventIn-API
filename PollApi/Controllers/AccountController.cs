@@ -35,8 +35,8 @@ namespace PollApi.Controllers
         {
             try
             {
-                Response.Cookies.Append("at", _authService.UserRegister(registerUser));
-                return Ok();
+                _authService.UserRegister(registerUser);
+                return Ok("Successful Registration! We sent you, an activation link on your email.");
             }
             catch (Exception ex)
             {
@@ -49,6 +49,19 @@ namespace PollApi.Controllers
             try
             {
                 Response.Cookies.Delete("at");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("Activate")]
+        public IActionResult Activate(string activateHash)
+        {
+            try
+            {
+                Console.WriteLine(activateHash);
                 return Ok();
             }
             catch (Exception ex)

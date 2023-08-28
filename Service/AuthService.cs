@@ -24,7 +24,6 @@ namespace Service
         public string BuildUserToken(LoginUserDto loginUser)
         {
             User user = _pollRepository.GetUserByEmail(loginUser.Email);
-            _emailService.SendEmail("TEST", "stoyanovbg@abv.bg");
             if (user != null && CheckPassword(user.HashPassword, loginUser.Password))
             {
                 return BuildJwt(user);
@@ -32,14 +31,16 @@ namespace Service
             throw new Exception("Wrong Email or Password");
         }
 
-        public string UserRegister(RegisterUserDto registerUser)
+        public void UserRegister(RegisterUserDto registerUser)
         {
             if (CheckIfUserExists(registerUser.Email))
             {
                 User user = RegisterUserDto.RegisterUserToUser(registerUser);
                 user.HashPassword = HashPassword(registerUser.Password);
+                user.ActivationHash = BuildActivateHash(registerUser.Email);
+                _emailService.SendEmail(EmailMessageBuilder(user.ActivationHash), registerUser.Email);
                 _pollRepository.SaveUser(user);
-                return BuildJwt(user);
+                return;
             }
             throw new Exception("Email is already taken!");
         }
@@ -88,12 +89,21 @@ namespace Service
             var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.UtcNow.AddDays(1),
-                                   signingCredentials: cred,
-                                   audience: _configuration.GetSection("Jwt:Issuer").Value,
-                                   issuer: _configuration.GetSection("Jwt:Issuer").Value
-                                   );
+            signingCredentials: cred,
+            audience: _configuration.GetSection("Jwt:Issuer").Value,
+            issuer: _configuration.GetSection("Jwt:Issuer").Value);
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        private string EmailMessageBuilder(string hash)
+        {
+            return $"Activate your account on this link: <a href=\"https://localhost:7029/Account/Activate?activatehash={hash}\">https://localhost:7029/Account/Activate?activatehash={hash}</a>";
+        }
+
+        private string BuildActivateHash(string email)
+        {
+            return HashPassword(email);
         }
     }
 }
