@@ -15,6 +15,8 @@ namespace Domain.Models
         public string Email { get; set; }
         [Required]
         public string HashPassword { get; set; }
+        public string ActivationHash { get; set; }
+        public bool Active { get; set; }
         public List<PollEvent> Events { get; set; }
     }
 }

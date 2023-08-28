@@ -1,13 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Domain.DtoModels;
+using Domain.Interfaces;
+using Domain.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using static System.Net.Mime.MediaTypeNames;
 using System.Security.Cryptography;
 using System.Text;
-using Domain.Interfaces;
-using Domain.DtoModels;
-using Domain.Models;
 
 namespace Service
 {
@@ -15,15 +13,18 @@ namespace Service
     {
         private readonly IAuthPollRepository _pollRepository;
         private readonly IConfiguration _configuration;
-        public AuthService(IAuthPollRepository pollRepository, IConfiguration configuration)
+        private readonly EmailService _emailService;
+        public AuthService(IAuthPollRepository pollRepository, IConfiguration configuration, EmailService emailService)
         {
             _pollRepository = pollRepository;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         public string BuildUserToken(LoginUserDto loginUser)
         {
             User user = _pollRepository.GetUserByEmail(loginUser.Email);
+            _emailService.SendEmail("TEST", "stoyanovbg@abv.bg");
             if (user != null && CheckPassword(user.HashPassword, loginUser.Password))
             {
                 return BuildJwt(user);

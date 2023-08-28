@@ -1,28 +1,44 @@
 ﻿using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dal
 {
     public class PollRepository : IPollRepository
     {
-        public PollEvent DeletePollEvent(int pollId)
+        private readonly PollDbContext _context;
+        public PollRepository(PollDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public void DeletePollEvent(int pollId)
+        {
+            _context.Events.Where(e => e.Id == pollId).ExecuteUpdate(setter => setter.SetProperty(p => p.IsDeleted, true));
+            _context.SaveChanges();
         }
 
         public List<PollEvent> GetAllPollEventsByUser(int userId)
         {
-            throw new NotImplementedException();
+            return _context.Events.Where(e => e.UserId == userId && e.IsDeleted == false).ToList();
         }
 
-        public PollEvent GetPollEventBy(int pollId)
+        public PollEvent GetPollEventById(int pollId)
         {
-            throw new NotImplementedException();
+            return _context.Events.FirstOrDefault(e => e.Id == pollId && e.IsDeleted == false);
         }
 
         public PollEvent UpdatePollEvent(PollEvent pollEvent)
         {
-            throw new NotImplementedException();
+            _context.Events.Update(pollEvent);
+            _context.SaveChanges();
+            return pollEvent;
+        }
+
+        public PollEvent CreatePollEvent(PollEvent pollEvent)
+        {
+            _context.Events.Add(pollEvent);
+            _context.SaveChanges();
+            return pollEvent;
         }
     }
 }

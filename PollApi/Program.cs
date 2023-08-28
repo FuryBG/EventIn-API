@@ -26,6 +26,7 @@ namespace PollApi
             builder.Services.AddScoped<IAuthPollRepository, AuthPollRepository>();
             builder.Services.AddScoped<IPollRepository, PollRepository>();
             builder.Services.AddScoped<IPollEventService, PollEventService>();
+            builder.Services.AddScoped<EmailService, EmailService>();
             builder.Services.Configure<ApiBehaviorOptions>(options =>
                 options.InvalidModelStateResponseFactory = actionContext =>
                 {
@@ -35,7 +36,7 @@ namespace PollApi
             );
             builder.Services.AddDbContext<PollDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration["ConnectionStrings:PollDb"]);
+                options.UseSqlServer(builder.Configuration["ConnectionStrings:PollDb"], b => b.MigrationsAssembly("PollApi"));
             });
             builder.Services.AddAuthentication().AddJwtBearer(options =>
             {

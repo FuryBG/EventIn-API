@@ -8,8 +8,10 @@ namespace Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [ForeignKey(nameof(PollEvent.Id))]
-        public int EventId { get; set; }
+        public int PollEventId { get; set; }
         [Required]
         public string Value { get; set; }
+        [Required]
+        public string Type { get; set; }
     }
 }

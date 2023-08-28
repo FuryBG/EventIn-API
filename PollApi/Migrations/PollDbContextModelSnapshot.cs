@@ -22,7 +22,7 @@ namespace PollApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PollApi.Models.PollEvent", b =>
+            modelBuilder.Entity("Domain.Models.PollEvent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,7 +31,9 @@ namespace PollApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 8, 28, 22, 58, 12, 828, DateTimeKind.Local).AddTicks(9412));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -60,7 +62,7 @@ namespace PollApi.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("PollApi.Models.PollOption", b =>
+            modelBuilder.Entity("Domain.Models.PollOption", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,11 +70,12 @@ namespace PollApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EventId")
+                    b.Property<int>("PollEventId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PollEventId")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -85,13 +88,39 @@ namespace PollApi.Migrations
                     b.ToTable("EventOptions");
                 });
 
-            modelBuilder.Entity("PollApi.Models.User", b =>
+            modelBuilder.Entity("Domain.Models.PollVote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CustomValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PollOptionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Votes");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActivationHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -114,28 +143,30 @@ namespace PollApi.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PollApi.Models.PollEvent", b =>
+            modelBuilder.Entity("Domain.Models.PollEvent", b =>
                 {
-                    b.HasOne("PollApi.Models.User", null)
+                    b.HasOne("Domain.Models.User", null)
                         .WithMany("Events")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PollApi.Models.PollOption", b =>
+            modelBuilder.Entity("Domain.Models.PollOption", b =>
                 {
-                    b.HasOne("PollApi.Models.PollEvent", null)
+                    b.HasOne("Domain.Models.PollEvent", null)
                         .WithMany("Options")
-                        .HasForeignKey("PollEventId");
+                        .HasForeignKey("PollEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("PollApi.Models.PollEvent", b =>
+            modelBuilder.Entity("Domain.Models.PollEvent", b =>
                 {
                     b.Navigation("Options");
                 });
 
-            modelBuilder.Entity("PollApi.Models.User", b =>
+            modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Navigation("Events");
                 });
