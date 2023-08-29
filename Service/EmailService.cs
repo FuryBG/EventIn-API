@@ -9,7 +9,7 @@ namespace Service
         public void SendEmail(string message, string to)
         {
             MailMessage mailmessage = new MailMessage("denis.belqta111@gmail.com", to);
-            mailmessage.Subject = "Auto Response Email";
+            mailmessage.Subject = "PollApi - Account Activation";
             mailmessage.Body = message;
             mailmessage.BodyEncoding = Encoding.UTF8;
             mailmessage.IsBodyHtml = true;

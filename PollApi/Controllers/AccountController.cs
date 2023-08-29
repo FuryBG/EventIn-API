@@ -1,10 +1,7 @@
 ﻿using Domain.DtoModels;
 using Domain.Interfaces;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace PollApi.Controllers
 {
@@ -20,15 +17,9 @@ namespace PollApi.Controllers
         [HttpPost("Login")]
         public IActionResult Login(LoginUserDto loginUser)
         {
-            try
-            {
-                Response.Cookies.Append("at", _authService.BuildUserToken(loginUser));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            Response.Cookies.Append("at", _authService.BuildUserToken(loginUser));
+            return Ok();
         }
         [HttpPost("Register")]
         public IActionResult Register(RegisterUserDto registerUser)
@@ -61,8 +52,8 @@ namespace PollApi.Controllers
         {
             try
             {
-                Console.WriteLine(activateHash);
-                return Ok();
+                User user = _authService.ActivateUser(activateHash);
+                return Ok("Activation Successful");
             }
             catch (Exception ex)
             {

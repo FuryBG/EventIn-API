@@ -1,4 +1,5 @@
 ﻿using Domain.DtoModels;
+using Domain.Models;
 
 namespace Domain.Interfaces
 {
@@ -6,6 +7,7 @@ namespace Domain.Interfaces
     {
         public string BuildUserToken(LoginUserDto loginUser);
         public void UserRegister(RegisterUserDto registerUser);
+        public User ActivateUser(string activateHash);
 
     }
 }

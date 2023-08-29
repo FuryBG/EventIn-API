@@ -11,19 +11,19 @@ namespace Service
 {
     public class AuthService : IAuthService
     {
-        private readonly IAuthPollRepository _pollRepository;
+        private readonly IAuthPollRepository _authPollRepository;
         private readonly IConfiguration _configuration;
         private readonly EmailService _emailService;
         public AuthService(IAuthPollRepository pollRepository, IConfiguration configuration, EmailService emailService)
         {
-            _pollRepository = pollRepository;
+            _authPollRepository = pollRepository;
             _configuration = configuration;
             _emailService = emailService;
         }
 
         public string BuildUserToken(LoginUserDto loginUser)
         {
-            User user = _pollRepository.GetUserByEmail(loginUser.Email);
+            User user = _authPollRepository.GetActiveUserByEmail(loginUser.Email);
             if (user != null && CheckPassword(user.HashPassword, loginUser.Password))
             {
                 return BuildJwt(user);
@@ -39,10 +39,17 @@ namespace Service
                 user.HashPassword = HashPassword(registerUser.Password);
                 user.ActivationHash = BuildActivateHash(registerUser.Email);
                 _emailService.SendEmail(EmailMessageBuilder(user.ActivationHash), registerUser.Email);
-                _pollRepository.SaveUser(user);
+                _authPollRepository.SaveUser(user);
                 return;
             }
             throw new Exception("Email is already taken!");
+        }
+
+        public User ActivateUser(string userHash)
+        {
+            User user = _authPollRepository.GetInactiveUserByActiveHash(userHash);
+            user.Active = true;
+            return _authPollRepository.UpdateUser(user);
         }
 
         private string HashPassword(string password)
@@ -53,10 +60,10 @@ namespace Service
             Byte[] keyBytes = encoding.GetBytes(_configuration["Hash:Salt"]);
             Byte[] hashBytes;
 
-            using (HMACSHA256 hash = new HMACSHA256(keyBytes))
+            using (HMACSHA512 hash = new HMACSHA512(keyBytes))
                 hashBytes = hash.ComputeHash(textBytes);
 
-            return BitConverter.ToString(hashBytes);
+            return BitConverter.ToString(hashBytes).ToLowerInvariant().Replace("-", "");
         }
 
         private bool CheckPassword(string hashedPassword, string password)
@@ -71,7 +78,7 @@ namespace Service
 
         private bool CheckIfUserExists(string email)
         {
-            User user = _pollRepository.GetUserByEmail(email);
+            User user = _authPollRepository.GetActiveUserByEmail(email);
             if (user != null) { return false; }
             return true;
         }
