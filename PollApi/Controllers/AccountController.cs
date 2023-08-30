@@ -17,7 +17,6 @@ namespace PollApi.Controllers
         [HttpPost("Login")]
         public IActionResult Login(LoginUserDto loginUser)
         {
-
             Response.Cookies.Append("at", _authService.BuildUserToken(loginUser));
             return Ok();
         }

@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using PollApi.Contracts;
 
 namespace PollApi.Filters
 {
-    public class ExceptionFilter : IActionFilter
+    public class ExceptionFilter : IExceptionFilter
     {
-        public void OnActionExecuted(ActionExecutedContext context)
+        public void OnException(ExceptionContext context)
         {
-            Console.WriteLine("TEST");
-        }
-
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-            Console.WriteLine("TEST1");
+            Error error = new Error(context.HttpContext.Response.StatusCode, context.Exception.Message);
+            context.Result = new JsonResult(error) { StatusCode = 400 };
         }
     }
 }
