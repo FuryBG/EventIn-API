@@ -8,6 +8,8 @@ namespace Domain.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid EventGuid { get; set; }
         [ForeignKey(nameof(User.Id))]
         public int UserId { get; set; }
         [Required]

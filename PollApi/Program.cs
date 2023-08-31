@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PollApi.Filters;
+using PollApi.Hubs;
 using Service;
 using System.Text;
 
@@ -69,6 +70,7 @@ namespace PollApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
+            builder.Services.AddSignalR();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -79,12 +81,15 @@ namespace PollApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting();
             app.UseAuthorization();
 
 
             app.MapControllers();
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<PollHub>("/poll-event");
+            });
             app.Run();
         }
     }

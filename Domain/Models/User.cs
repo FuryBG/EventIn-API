@@ -18,5 +18,6 @@ namespace Domain.Models
         public string ActivationHash { get; set; }
         public bool Active { get; set; }
         public List<PollEvent> Events { get; set; }
+        public PollLicense License { get; set; }
     }
 }

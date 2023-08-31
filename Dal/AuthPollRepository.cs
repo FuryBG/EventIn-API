@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dal
 {
@@ -17,6 +18,11 @@ namespace Dal
         public User GetInactiveUserByActiveHash(string activeHash)
         {
             return _context.Users.FirstOrDefault(u => u.ActivationHash == activeHash);
+        }
+
+        public User GetUserById(int userId)
+        {
+            return _context.Users.Where(u => u.Id == userId).Include(u => u.License).FirstOrDefault();
         }
 
         public User SaveUser(User user)

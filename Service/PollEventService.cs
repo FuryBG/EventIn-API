@@ -11,9 +11,9 @@ namespace Service
             _repository = pollRepository;
         }
 
-        public PollEvent GetPollEventById(int pollId)
+        public PollEvent GetPollEventByGuid(Guid pollGuid)
         {
-            return _repository.GetPollEventById(pollId);
+            return _repository.GetPollEventByPollGuid(pollGuid);
         }
 
         public PollEvent CreatePollEvent(PollEvent pollEvent)

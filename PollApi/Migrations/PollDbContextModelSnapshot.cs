@@ -33,7 +33,7 @@ namespace PollApi.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 8, 28, 22, 58, 12, 828, DateTimeKind.Local).AddTicks(9412));
+                        .HasDefaultValue(new DateTime(2023, 8, 31, 15, 2, 31, 526, DateTimeKind.Local).AddTicks(310));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -59,7 +59,34 @@ namespace PollApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.PollLicense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("PollLicense", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.PollOption", b =>
@@ -85,7 +112,7 @@ namespace PollApi.Migrations
 
                     b.HasIndex("PollEventId");
 
-                    b.ToTable("EventOptions");
+                    b.ToTable("EventOptions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.PollVote", b =>
@@ -104,7 +131,7 @@ namespace PollApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.User", b =>
@@ -140,7 +167,7 @@ namespace PollApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.PollEvent", b =>
@@ -148,6 +175,15 @@ namespace PollApi.Migrations
                     b.HasOne("Domain.Models.User", null)
                         .WithMany("Events")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Models.PollLicense", b =>
+                {
+                    b.HasOne("Domain.Models.User", null)
+                        .WithOne("License")
+                        .HasForeignKey("Domain.Models.PollLicense", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -169,6 +205,9 @@ namespace PollApi.Migrations
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Navigation("Events");
+
+                    b.Navigation("License")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

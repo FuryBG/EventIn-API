@@ -45,6 +45,11 @@ namespace Service
             throw new Exception("Email is already taken!");
         }
 
+        public User GetUserById(int userId)
+        {
+            return _authPollRepository.GetUserById(userId);
+        }
+
         public User ActivateUser(string userHash)
         {
             User user = _authPollRepository.GetInactiveUserByActiveHash(userHash);

@@ -23,41 +23,26 @@ namespace PollApi.Controllers
         [HttpPost("Register")]
         public IActionResult Register(RegisterUserDto registerUser)
         {
-            try
-            {
-                _authService.UserRegister(registerUser);
-                return Ok("Successful Registration! We sent you, an activation link on your email.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _authService.UserRegister(registerUser);
+            return Created("", "Successful Registration! We sent you, an activation link on your email.");
         }
         [HttpGet("Logout")]
         public IActionResult Logout()
         {
-            try
-            {
-                Response.Cookies.Delete("at");
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            Response.Cookies.Delete("at");
+            return Ok();
+        }
+        [HttpGet("GetUserById")]
+        public IActionResult GetUserById(int userId)
+        {
+            User user = _authService.GetUserById(userId);
+            return Ok(user);
         }
         [HttpGet("Activate")]
         public IActionResult Activate(string activateHash)
         {
-            try
-            {
-                User user = _authService.ActivateUser(activateHash);
-                return Ok("Activation Successful");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            User user = _authService.ActivateUser(activateHash);
+            return Ok("Activation Successful");
         }
     }
 }

@@ -17,51 +17,32 @@ namespace PollApi.Controllers
             _eventService = pollEventService;
         }
         [Authorize]
-        [HttpGet("GetPollById")]
-        public IActionResult GetPollById(int id)
+        [HttpGet("GetPollByGuid")]
+        public IActionResult GetPollByGuid(Guid id)
         {
-            try
-            {
-                PollEvent pollEvent = _eventService.GetPollEventById(id);
-                return Ok(pollEvent);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            PollEvent pollEvent = _eventService.GetPollEventByGuid(id);
+            return Ok(pollEvent);
         }
         [Authorize]
         [HttpPost("CreatePoll")]
         public IActionResult CreatePoll(PollEvent pollEvent)
         {
-            try
-            {
-                PollEvent createdEvent = _eventService.CreatePollEvent(pollEvent);
-                return Ok(createdEvent);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            PollEvent createdEvent = _eventService.CreatePollEvent(pollEvent);
+            return Created("", createdEvent);
         }
         [Authorize]
         [HttpPost("UpdatePoll")]
         public IActionResult UpdatePoll(PollEvent pollEvent)
         {
-            return Ok();
+            PollEvent updatedPoll = _eventService.UpdatePollEvent(pollEvent);
+            return Ok(updatedPoll);
         }
         [Authorize]
         [HttpPost("DeletePoll")]
         public IActionResult DeletePoll(int pollId)
         {
-            try
-            {
-                _eventService.DeletePollEvent(pollId);
-                return Ok();
-            }
-            catch(Exception ex) {
-                return BadRequest(ex.Message);
-            }
+            _eventService.DeletePollEvent(pollId);
+            return Ok();
         }
     }
 }

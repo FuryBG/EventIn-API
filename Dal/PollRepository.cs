@@ -22,9 +22,9 @@ namespace Dal
             return _context.Events.Where(e => e.UserId == userId && e.IsDeleted == false).ToList();
         }
 
-        public PollEvent GetPollEventById(int pollId)
+        public PollEvent GetPollEventByPollGuid(Guid pollId)
         {
-            return _context.Events.FirstOrDefault(e => e.Id == pollId && e.IsDeleted == false);
+            return _context.Events.FirstOrDefault(e => e.EventGuid == pollId && e.IsDeleted == false);
         }
 
         public PollEvent UpdatePollEvent(PollEvent pollEvent)

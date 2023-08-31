@@ -8,6 +8,7 @@ namespace Dal
         public PollDbContext(DbContextOptions options) : base(options) { }
         
         public DbSet<User> Users { get; set; }
+        public DbSet<PollLicense> PollLicense { get; set; }
         public DbSet<PollEvent> Events { get; set; }
         public DbSet<PollOption> EventOptions { get; set; }
         public DbSet<PollVote> Votes { get; set; }
