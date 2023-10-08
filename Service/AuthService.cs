@@ -92,17 +92,17 @@ namespace Service
         {
             var claims = new List<Claim>()
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(ClaimTypes.Email, user.Email),
             };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("Jwt:Key").Value));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.UtcNow.AddDays(1),
             signingCredentials: cred,
-            audience: _configuration.GetSection("Jwt:Issuer").Value,
+            audience: _configuration.GetSection("Jwt:Audience").Value,
             issuer: _configuration.GetSection("Jwt:Issuer").Value);
             string jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;

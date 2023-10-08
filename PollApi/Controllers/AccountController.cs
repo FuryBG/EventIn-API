@@ -1,7 +1,9 @@
 ﻿using Domain.DtoModels;
 using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace PollApi.Controllers
 {
@@ -17,7 +19,7 @@ namespace PollApi.Controllers
         [HttpPost("Login")]
         public IActionResult Login(LoginUserDto loginUser)
         {
-            Response.Cookies.Append("at", _authService.BuildUserToken(loginUser));
+            Response.Cookies.Append("at", _authService.BuildUserToken(loginUser), new CookieOptions() { HttpOnly = true, Secure = true, SameSite = SameSiteMode.Strict });
             return Ok();
         }
         [HttpPost("Register")]
@@ -32,9 +34,11 @@ namespace PollApi.Controllers
             Response.Cookies.Delete("at");
             return Ok();
         }
-        [HttpGet("GetUserById")]
-        public IActionResult GetUserById(int userId)
+        [Authorize]
+        [HttpGet("GetUser")]
+        public IActionResult GetUser()
         {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             User user = _authService.GetUserById(userId);
             return Ok(user);
         }

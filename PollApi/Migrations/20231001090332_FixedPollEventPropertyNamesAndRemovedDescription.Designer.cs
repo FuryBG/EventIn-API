@@ -4,6 +4,7 @@ using Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PollApi.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    partial class PollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231001090332_FixedPollEventPropertyNamesAndRemovedDescription")]
+    partial class FixedPollEventPropertyNamesAndRemovedDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +36,11 @@ namespace PollApi.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 7, 13, 16, 40, 907, DateTimeKind.Local).AddTicks(1736));
+                        .HasDefaultValue(new DateTime(2023, 10, 1, 12, 3, 32, 825, DateTimeKind.Local).AddTicks(7721));
 
                     b.Property<Guid>("EventGuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NewId()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

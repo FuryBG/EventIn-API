@@ -4,6 +4,7 @@ using Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PollApi.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    partial class PollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230826204808_AddedTypeToPollOption")]
+    partial class AddedTypeToPollOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,16 +34,13 @@ namespace PollApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 7, 13, 16, 40, 907, DateTimeKind.Local).AddTicks(1736));
+                        .HasColumnType("datetime2");
 
-                    b.Property<Guid>("EventGuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NewId()");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsActice")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
@@ -61,33 +61,6 @@ namespace PollApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("Domain.Models.PollLicense", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("PollLicense");
                 });
 
             modelBuilder.Entity("Domain.Models.PollOption", b =>
@@ -116,25 +89,6 @@ namespace PollApi.Migrations
                     b.ToTable("EventOptions");
                 });
 
-            modelBuilder.Entity("Domain.Models.PollVote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CustomValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PollOptionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Votes");
-                });
-
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -142,13 +96,6 @@ namespace PollApi.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ActivationHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -180,15 +127,6 @@ namespace PollApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Models.PollLicense", b =>
-                {
-                    b.HasOne("Domain.Models.User", null)
-                        .WithOne("License")
-                        .HasForeignKey("Domain.Models.PollLicense", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Models.PollOption", b =>
                 {
                     b.HasOne("Domain.Models.PollEvent", null)
@@ -206,9 +144,6 @@ namespace PollApi.Migrations
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
                     b.Navigation("Events");
-
-                    b.Navigation("License")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

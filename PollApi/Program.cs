@@ -32,6 +32,16 @@ namespace PollApi
             builder.Services.AddScoped<IPollRepository, PollRepository>();
             builder.Services.AddScoped<IPollEventService, PollEventService>();
             builder.Services.AddScoped<EmailService, EmailService>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials()
+                           .WithOrigins("http://localhost:4200", "http://localhost:3000", "https://localhost:5173");
+                });
+            });
             builder.Services.Configure<ApiBehaviorOptions>(options =>
                 options.InvalidModelStateResponseFactory = actionContext =>
                 {
@@ -66,7 +76,7 @@ namespace PollApi
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
@@ -82,8 +92,9 @@ namespace PollApi
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("CorsPolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
             app.UseEndpoints(endpoints =>

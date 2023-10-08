@@ -4,17 +4,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS;
+using System.Security.Claims;
 
 namespace PollApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PollController : ControllerBase
+    public class PollController : Controller
     {
         private readonly IPollEventService _eventService;
         public PollController(IPollEventService pollEventService)
         {
             _eventService = pollEventService;
+        }
+        [Authorize]
+        [HttpGet("GetAllUserPolls")]
+        public IActionResult GetAllUserPolls()
+        {
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            List<PollEvent> pollEvents = _eventService.GetAllUserPolls(userId);
+            return Ok(pollEvents);
         }
         [Authorize]
         [HttpGet("GetPollByGuid")]
@@ -27,6 +36,7 @@ namespace PollApi.Controllers
         [HttpPost("CreatePoll")]
         public IActionResult CreatePoll(PollEvent pollEvent)
         {
+            pollEvent.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             PollEvent createdEvent = _eventService.CreatePollEvent(pollEvent);
             return Created("", createdEvent);
         }

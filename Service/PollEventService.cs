@@ -31,5 +31,10 @@ namespace Service
             _repository.UpdatePollEvent(pollEvent);
             return pollEvent;
         }
+
+        public List<PollEvent> GetAllUserPolls(int userId)
+        {
+            return _repository.GetAllPollEventsByUser(userId);
+        }
     }
 }

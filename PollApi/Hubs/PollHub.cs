@@ -11,19 +11,19 @@ namespace PollApi.Hubs
         {
             _eventService = pollEventService;
         }
-        public async Task JoinRoom(string roomId)
+        public async Task JoinRoom(string pollGuid)
         {
-            Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+            Groups.AddToGroupAsync(Context.ConnectionId, pollGuid);
         }
 
-        public async Task LeaveRoom(string roomId)
+        public async Task LeaveRoom(string pollGuid)
         {
-            Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
+            Groups.RemoveFromGroupAsync(Context.ConnectionId, pollGuid);
         }
 
-        public async Task PollVote(PollVote pollVote, string roomId)
+        public async Task PollVote(PollVote pollVote, string pollGuid)
         {
-            Clients.Group(roomId).SendAsync("Test", pollVote);
+            Clients.Group(pollGuid).SendAsync("PollVote", pollGuid);
         }
     }
 }

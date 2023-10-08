@@ -18,6 +18,9 @@ namespace Dal
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<PollEvent>(x => x.Property(c => c.Created).HasDefaultValue(DateTime.Now));
             modelBuilder.Entity<PollEvent>(x => x.Property(c => c.Updated).HasDefaultValue(null));
+            modelBuilder.Entity<PollEvent>()
+                        .Property(pe => pe.EventGuid)
+                        .HasDefaultValueSql("NewId()");
         }
     }
 }
