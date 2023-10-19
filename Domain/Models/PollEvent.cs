@@ -18,7 +18,7 @@ namespace Domain.Models
         public DateTime Updated { get; set; }
         public Boolean IsDeleted { get; set; }
         public Boolean IsActive { get; set; }
-        public List<PollOption> Options { get; set; }
+        public List<PollOption>? Options { get; set; }
 
     }
 }

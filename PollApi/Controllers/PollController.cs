@@ -25,11 +25,17 @@ namespace PollApi.Controllers
             List<PollEvent> pollEvents = _eventService.GetAllUserPolls(userId);
             return Ok(pollEvents);
         }
-        [Authorize]
         [HttpGet("GetPollByGuid")]
         public IActionResult GetPollByGuid(Guid id)
         {
             PollEvent pollEvent = _eventService.GetPollEventByGuid(id);
+            return Ok(pollEvent);
+        }
+        [Authorize]
+        [HttpGet("GetPollById")]
+        public IActionResult GetPollById(int id)
+        {
+            PollEvent pollEvent = _eventService.GetPollEventById(id);
             return Ok(pollEvent);
         }
         [Authorize]

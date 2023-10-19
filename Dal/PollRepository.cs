@@ -40,5 +40,10 @@ namespace Dal
             _context.SaveChanges();
             return pollEvent;
         }
+
+        public PollEvent GetPollEventById(int id)
+        {
+            return _context.Events.Where(e => e.Id == id && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
+        }
     }
 }

@@ -11,9 +11,11 @@ namespace PollApi.Hubs
         {
             _eventService = pollEventService;
         }
-        public async Task JoinRoom(string pollGuid)
+        public async Task JoinRoom(Guid pollGuid)
         {
-            Groups.AddToGroupAsync(Context.ConnectionId, pollGuid);
+            Groups.AddToGroupAsync(Context.ConnectionId, pollGuid.ToString());
+            PollEvent pollEvent = _eventService.GetPollEventByGuid(pollGuid);
+            Clients.Group(pollGuid.ToString()).SendAsync("PollVote", pollEvent);
         }
 
         public async Task LeaveRoom(string pollGuid)
