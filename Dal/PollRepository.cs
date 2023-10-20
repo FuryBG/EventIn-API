@@ -24,7 +24,7 @@ namespace Dal
 
         public PollEvent GetPollEventByPollGuid(Guid pollId)
         {
-            return _context.Events.Where(e => e.EventGuid == pollId && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
+            return _context.Events.Where(e => e.EventGuid == pollId && e.IsDeleted == false).Include(e => e.Options).ThenInclude(e => e.Votes).FirstOrDefault();
         }
 
         public PollEvent UpdatePollEvent(PollEvent pollEvent)

@@ -7,9 +7,12 @@ namespace PollApi.Hubs
     public class PollHub : Hub
     {
         IPollEventService _eventService;
-        public PollHub(IPollEventService pollEventService)
+        IPollVoteService _voteService;
+        public PollHub(IPollEventService pollEventService, IPollVoteService voteService)
         {
             _eventService = pollEventService;
+            _voteService = voteService;
+
         }
         public async Task JoinRoom(Guid pollGuid)
         {
@@ -23,9 +26,11 @@ namespace PollApi.Hubs
             Groups.RemoveFromGroupAsync(Context.ConnectionId, pollGuid);
         }
 
-        public async Task PollVote(PollVote pollVote, string pollGuid)
+        public async Task PollVote(PollVote pollVote, Guid pollGuid)
         {
-            Clients.Group(pollGuid).SendAsync("PollVote", pollGuid);
+            _voteService.CreateVote(pollVote);
+            PollEvent pollEvent = _eventService.GetPollEventByGuid(pollGuid);
+            Clients.Group(pollGuid.ToString()).SendAsync("PollVote", pollEvent);
         }
     }
 }

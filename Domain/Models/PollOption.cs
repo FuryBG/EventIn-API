@@ -6,12 +6,13 @@ namespace Domain.Models
     public class PollOption
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int PollOptionId { get; set; }
         [ForeignKey(nameof(PollEvent.Id))]
         public int PollEventId { get; set; }
         [Required]
         public string Value { get; set; }
         [Required]
         public string Type { get; set; }
+        public List<PollVote> Votes { get; set; }
     }
 }

@@ -31,6 +31,8 @@ namespace PollApi
             builder.Services.AddScoped<IAuthPollRepository, AuthPollRepository>();
             builder.Services.AddScoped<IPollRepository, PollRepository>();
             builder.Services.AddScoped<IPollEventService, PollEventService>();
+            builder.Services.AddScoped<IPollVoteRepository, PollVoteRepository>();
+            builder.Services.AddScoped<IPollVoteService, PollVoteService>();
             builder.Services.AddScoped<EmailService, EmailService>();
             builder.Services.AddCors(options =>
             {
