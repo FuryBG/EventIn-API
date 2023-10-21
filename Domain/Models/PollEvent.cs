@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Models
 {
     public class PollEvent
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int PollEventId { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid EventGuid { get; set; }
         [ForeignKey(nameof(User.Id))]
@@ -18,6 +19,7 @@ namespace Domain.Models
         public DateTime Updated { get; set; }
         public Boolean IsDeleted { get; set; }
         public Boolean IsActive { get; set; }
+        [AllowNull]
         public List<PollOption>? Options { get; set; }
 
     }

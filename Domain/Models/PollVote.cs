@@ -8,6 +8,8 @@ namespace Domain.Models
         public int PollVoteId { get; set; }
         [ForeignKey(nameof(PollOption.PollOptionId))]
         public int PollOptionId { get; set; }
+        [ForeignKey(nameof(PollEvent.PollEventId))]
+        public int PollEventId { get; set; }
         public string? CustomValue { get; set; }
     }
 }

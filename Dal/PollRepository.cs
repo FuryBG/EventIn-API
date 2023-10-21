@@ -13,7 +13,7 @@ namespace Dal
         }
         public void DeletePollEvent(int pollId)
         {
-            _context.Events.Where(e => e.Id == pollId).ExecuteUpdate(setter => setter.SetProperty(p => p.IsDeleted, true));
+            _context.Events.Where(e => e.PollEventId == pollId).ExecuteUpdate(setter => setter.SetProperty(p => p.IsDeleted, true));
             _context.SaveChanges();
         }
 
@@ -41,9 +41,9 @@ namespace Dal
             return pollEvent;
         }
 
-        public PollEvent GetPollEventById(int id)
+        public PollEvent GetPollEventById(int pollEventId)
         {
-            return _context.Events.Where(e => e.Id == id && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
+            return _context.Events.Where(e => e.PollEventId == pollEventId && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
         }
     }
 }
