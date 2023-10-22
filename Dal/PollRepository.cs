@@ -24,7 +24,21 @@ namespace Dal
 
         public PollEvent GetPollEventByPollGuid(Guid pollId)
         {
-            return _context.Events.Where(e => e.EventGuid == pollId && e.IsDeleted == false).Include(e => e.Options).ThenInclude(e => e.Votes).FirstOrDefault();
+            //TODO CREATE DTO MODEL
+            //var test = _context.Events.Select(e => new
+            //{
+            //    e.PollEventId,
+            //    e.EventGuid,
+            //    Options = _context.EventOptions.Select(o => new
+            //    {
+            //        o.PollEventId,
+            //        o.PollOptionId,
+            //        o.Value,
+            //        o.Type,
+            //        Percentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()),
+            //    }).Where(o => o.PollEventId == e.PollEventId).ToList()
+            //}).Where(e => e.EventGuid == pollId).FirstOrDefault();
+            return _context.Events.Where(e => e.EventGuid == pollId && e.IsDeleted == false).Include(e => e.Options).ThenInclude(e => e.Votes).AsSplitQuery().FirstOrDefault();
         }
 
         public PollEvent UpdatePollEvent(PollEvent pollEvent)
