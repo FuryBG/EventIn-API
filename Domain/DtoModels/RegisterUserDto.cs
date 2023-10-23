@@ -14,7 +14,7 @@ namespace Domain.DtoModels
 
         public static User RegisterUserToUser(RegisterUserDto registerUser)
         {
-            User user= new User();
+            User user = new User();
             user.FirstName = registerUser.FirstName;
             user.LastName = registerUser.LastName;
             user.Email = registerUser.Email;
