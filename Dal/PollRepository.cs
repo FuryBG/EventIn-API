@@ -1,6 +1,8 @@
-﻿using Domain.Interfaces;
+﻿using Domain.DtoModels;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Dal
 {
@@ -11,11 +13,6 @@ namespace Dal
         {
             _context = context;
         }
-        public void DeletePollEvent(int pollId)
-        {
-            _context.Events.Where(e => e.PollEventId == pollId).ExecuteUpdate(setter => setter.SetProperty(p => p.IsDeleted, true));
-            _context.SaveChanges();
-        }
 
         public List<PollEvent> GetAllPollEventsByUser(int userId)
         {
@@ -24,28 +21,48 @@ namespace Dal
 
         public PollEvent GetPollEventByPollGuid(Guid pollId)
         {
-            //TODO CREATE DTO MODEL
-            //var test = _context.Events.Select(e => new
-            //{
-            //    e.PollEventId,
-            //    e.EventGuid,
-            //    Options = _context.EventOptions.Select(o => new
-            //    {
-            //        o.PollEventId,
-            //        o.PollOptionId,
-            //        o.Value,
-            //        o.Type,
-            //        Percentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()),
-            //    }).Where(o => o.PollEventId == e.PollEventId).ToList()
-            //}).Where(e => e.EventGuid == pollId).FirstOrDefault();
             return _context.Events.Where(e => e.EventGuid == pollId && e.IsDeleted == false).Include(e => e.Options).ThenInclude(e => e.Votes).AsSplitQuery().FirstOrDefault();
         }
-
-        public PollEvent UpdatePollEvent(PollEvent pollEvent)
+        public PollEvent GetPollEventById(int pollEventId)
         {
-            _context.Events.Update(pollEvent);
-            _context.SaveChanges();
-            return pollEvent;
+            return _context.Events.Where(e => e.PollEventId == pollEventId && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
+        }
+        public void GetPollEventByGuidWithVotes(Guid pollGuid)
+        {
+            var test = _context.Events.Select(e => new
+            {
+                e.PollEventId,
+                e.EventGuid,
+                e.Title,
+                e.UserId,
+                e.Created,
+                e.IsActive,
+                Options = _context.EventOptions.Select(o => new
+                {
+                    o.PollEventId,
+                    o.PollOptionId,
+                    o.Value,
+                    o.Type,
+                    Percentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()),
+                }).Where(o => o.PollEventId == e.PollEventId).ToList()
+            }).Where(e => e.EventGuid == pollGuid).FirstOrDefault();
+
+            var test1 = _context.Events.Select(e => new
+            {
+                e.EventGuid,
+                e.Title,
+                e.UserId,
+                e.Created,
+                e.IsActive,
+                Options = _context.EventOptions.Select(o => new
+                {
+                    o.PollEventId,
+                    o.PollOptionId,
+                    o.Value,
+                    o.Type,
+                    Percentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()),
+                }).Where(o => o.PollEventId == e.PollEventId).ToList()
+            }).Where(e => e.EventGuid == pollGuid).ToList();
         }
 
         public PollEvent CreatePollEvent(PollEvent pollEvent)
@@ -55,9 +72,17 @@ namespace Dal
             return pollEvent;
         }
 
-        public PollEvent GetPollEventById(int pollEventId)
+        public PollEvent UpdatePollEvent(PollEvent pollEvent)
         {
-            return _context.Events.Where(e => e.PollEventId == pollEventId && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
+            _context.Events.Update(pollEvent);
+            _context.SaveChanges();
+            return pollEvent;
+        }
+
+        public void DeletePollEvent(int pollId)
+        {
+            _context.Events.Where(e => e.PollEventId == pollId).ExecuteUpdate(setter => setter.SetProperty(p => p.IsDeleted, true));
+            _context.SaveChanges();
         }
     }
 }
