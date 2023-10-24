@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.DtoModels;
+using Domain.Interfaces;
 using Domain.Models;
 
 namespace Service
@@ -16,22 +17,6 @@ namespace Service
             return _repository.GetPollEventByPollGuid(pollGuid);
         }
 
-        public PollEvent CreatePollEvent(PollEvent pollEvent)
-        {
-            return _repository.CreatePollEvent(pollEvent);
-        }
-
-        public void DeletePollEvent(int pollId)
-        {
-            _repository.DeletePollEvent(pollId);
-        }
-
-        public PollEvent UpdatePollEvent(PollEvent pollEvent)
-        {
-            _repository.UpdatePollEvent(pollEvent);
-            return pollEvent;
-        }
-
         public List<PollEvent> GetAllUserPolls(int userId)
         {
             return _repository.GetAllPollEventsByUser(userId);
@@ -40,6 +25,27 @@ namespace Service
         public PollEvent GetPollEventById(int pollId)
         {
             return _repository.GetPollEventById(pollId);
+        }
+
+        public PollEventDto GetPollEventDtoByGuid(Guid pollEventGuid)
+        {
+            return _repository.GetPollEventDtoByGuid(pollEventGuid);
+        }
+
+        public PollEvent CreatePollEvent(PollEvent pollEvent)
+        {
+            return _repository.CreatePollEvent(pollEvent);
+        }
+
+        public PollEvent UpdatePollEvent(PollEvent pollEvent)
+        {
+            _repository.UpdatePollEvent(pollEvent);
+            return pollEvent;
+        }
+
+        public void DeletePollEvent(int pollId)
+        {
+            _repository.DeletePollEvent(pollId);
         }
     }
 }

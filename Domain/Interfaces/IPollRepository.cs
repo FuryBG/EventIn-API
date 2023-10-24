@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.DtoModels;
+using Domain.Models;
 
 namespace Domain.Interfaces
 {
@@ -6,7 +7,7 @@ namespace Domain.Interfaces
     {
         public PollEvent GetPollEventByPollGuid(Guid pollId);
         public PollEvent GetPollEventById(int id);
-        public void GetPollEventByGuidWithVotes(Guid pollGuid);
+        public PollEventDto GetPollEventDtoByGuid(Guid pollGuid);
         public List<PollEvent> GetAllPollEventsByUser(int userId);
         public PollEvent UpdatePollEvent(PollEvent pollEvent);
         public void DeletePollEvent(int pollId);

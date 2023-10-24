@@ -27,42 +27,25 @@ namespace Dal
         {
             return _context.Events.Where(e => e.PollEventId == pollEventId && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
         }
-        public void GetPollEventByGuidWithVotes(Guid pollGuid)
+        public PollEventDto GetPollEventDtoByGuid(Guid pollGuid)
         {
-            var test = _context.Events.Select(e => new
-            {
-                e.PollEventId,
-                e.EventGuid,
-                e.Title,
-                e.UserId,
-                e.Created,
-                e.IsActive,
-                Options = _context.EventOptions.Select(o => new
+            return _context.Events.Select(e =>
+                new PollEventDto()
                 {
-                    o.PollEventId,
-                    o.PollOptionId,
-                    o.Value,
-                    o.Type,
-                    Percentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()),
-                }).Where(o => o.PollEventId == e.PollEventId).ToList()
-            }).Where(e => e.EventGuid == pollGuid).FirstOrDefault();
-
-            var test1 = _context.Events.Select(e => new
-            {
-                e.EventGuid,
-                e.Title,
-                e.UserId,
-                e.Created,
-                e.IsActive,
-                Options = _context.EventOptions.Select(o => new
-                {
-                    o.PollEventId,
-                    o.PollOptionId,
-                    o.Value,
-                    o.Type,
-                    Percentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()),
-                }).Where(o => o.PollEventId == e.PollEventId).ToList()
-            }).Where(e => e.EventGuid == pollGuid).ToList();
+                    EventGuid = e.EventGuid,
+                    Title = e.Title,
+                    UserId = e.UserId,
+                    Created = e.Created,
+                    IsActive = e.IsActive,
+                    Options = _context.EventOptions.Select(o => new PollOptionDto()
+                    {
+                        PollEventId = o.PollEventId,
+                        PollOptionId = o.PollOptionId,
+                        Type = o.Type,
+                        Value = o.Value,
+                        Precentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count())
+                    }).Where(o => o.PollEventId == e.PollEventId).ToList()
+                }).Where(e => e.EventGuid == pollGuid).First();
         }
 
         public PollEvent CreatePollEvent(PollEvent pollEvent)
