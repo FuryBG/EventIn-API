@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.DtoModels;
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.SignalR;
 
@@ -17,7 +18,7 @@ namespace PollApi.Hubs
         public async Task JoinRoom(Guid pollGuid)
         {
             Groups.AddToGroupAsync(Context.ConnectionId, pollGuid.ToString());
-            PollEvent pollEvent = _eventService.GetPollEventByGuid(pollGuid);
+            PollEventDto pollEvent = _eventService.GetPollEventDtoByGuid(pollGuid);
             Clients.Group(pollGuid.ToString()).SendAsync("PollVote", pollEvent);
         }
 
@@ -29,7 +30,7 @@ namespace PollApi.Hubs
         public async Task PollVote(PollVote pollVote, Guid pollGuid)
         {
             _voteService.CreateVote(pollVote);
-            PollEvent pollEvent = _eventService.GetPollEventByGuid(pollGuid);
+            PollEventDto pollEvent = _eventService.GetPollEventDtoByGuid(pollGuid);
             Clients.Group(pollGuid.ToString()).SendAsync("PollVote", pollEvent);
         }
     }
