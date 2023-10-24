@@ -43,7 +43,7 @@ namespace Dal
                         PollOptionId = o.PollOptionId,
                         Type = o.Type,
                         Value = o.Value,
-                        Precentage = (100 / _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count()) * (_context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count())
+                        Precentage = (int)Math.Ceiling(100 / (double)_context.Votes.Where(v => v.PollEventId == e.PollEventId).Count() * _context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count())
                     }).Where(o => o.PollEventId == e.PollEventId).ToList()
                 }).Where(e => e.EventGuid == pollGuid).First();
         }
