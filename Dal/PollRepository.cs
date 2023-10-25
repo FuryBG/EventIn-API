@@ -37,6 +37,7 @@ namespace Dal
                     UserId = e.UserId,
                     Created = e.Created,
                     IsActive = e.IsActive,
+                    VotesCount = _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count(),
                     Options = _context.EventOptions.Select(o => new PollOptionDto()
                     {
                         PollEventId = o.PollEventId,
