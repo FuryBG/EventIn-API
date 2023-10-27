@@ -1,8 +1,4 @@
-﻿using Domain.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace Domain.DtoModels
+﻿namespace Domain.DtoModels
 {
     public class PollOptionDto
     {
