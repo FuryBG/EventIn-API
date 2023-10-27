@@ -6,14 +6,18 @@ namespace Service
     public class PollVoteService : IPollVoteService
     {
         private readonly IPollVoteRepository _repository;
-        public PollVoteService(IPollVoteRepository pollVoteRepository)
+        private readonly NetworkService _networkService;
+        public PollVoteService(IPollVoteRepository pollVoteRepository, NetworkService networkService)
         {
             _repository = pollVoteRepository;
+            _networkService = networkService;
         }
 
         public PollVote CreateVote(PollVote pollVote)
         {
-            return _repository.CreateVote(pollVote);
+            string clientIp = _networkService.GetClientIp();
+            pollVote.IpAddress = clientIp;
+            return _repository.CreateVote(pollVote, clientIp);
         }
 
         public PollVote UpdateVote(PollVote pollVote)

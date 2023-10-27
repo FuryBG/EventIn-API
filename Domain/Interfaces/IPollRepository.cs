@@ -7,7 +7,7 @@ namespace Domain.Interfaces
     {
         public PollEvent GetPollEventByPollGuid(Guid pollId);
         public PollEvent GetPollEventById(int id);
-        public PollEventDto GetPollEventDtoByGuid(Guid pollGuid);
+        public PollEventDto GetPollEventDtoByGuid(Guid pollGuid, string clientIp);
         public List<PollEvent> GetAllPollEventsByUser(int userId);
         public PollEvent UpdatePollEvent(PollEvent pollEvent);
         public void DeletePollEvent(int pollId);

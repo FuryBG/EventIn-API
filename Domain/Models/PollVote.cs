@@ -11,5 +11,6 @@ namespace Domain.Models
         [ForeignKey(nameof(PollEvent.PollEventId))]
         public int PollEventId { get; set; }
         public string? CustomValue { get; set; }
+        public string? IpAddress { get; set; }
     }
 }

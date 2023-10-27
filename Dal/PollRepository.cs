@@ -2,7 +2,6 @@
 using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Dal
 {
@@ -27,7 +26,7 @@ namespace Dal
         {
             return _context.Events.Where(e => e.PollEventId == pollEventId && e.IsDeleted == false).Include(e => e.Options).FirstOrDefault();
         }
-        public PollEventDto GetPollEventDtoByGuid(Guid pollGuid)
+        public PollEventDto GetPollEventDtoByGuid(Guid pollGuid, string clientIp)
         {
             return _context.Events.Select(e =>
                 new PollEventDto()
@@ -37,6 +36,7 @@ namespace Dal
                     UserId = e.UserId,
                     Created = e.Created,
                     IsActive = e.IsActive,
+                    UserVote = _context.Votes.Where(v => v.PollEventId == e.PollEventId && v.IpAddress == clientIp).First(),
                     VotesCount = _context.Votes.Where(v => v.PollEventId == e.PollEventId).Count(),
                     Options = _context.EventOptions.Select(o => new PollOptionDto()
                     {
@@ -44,7 +44,7 @@ namespace Dal
                         PollOptionId = o.PollOptionId,
                         Type = o.Type,
                         Value = o.Value,
-                        Precentage = (int)Math.Ceiling(100 / (double)_context.Votes.Where(v => v.PollEventId == e.PollEventId).Count() * _context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count())
+                        Precentage = (_context.Votes.Where(v => v.PollEventId == e.PollEventId).Count() * _context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count()) == 0 ? 0 : (int)Math.Ceiling(100 / (double)_context.Votes.Where(v => v.PollEventId == e.PollEventId).Count() * _context.Votes.Where(v => v.PollEventId == e.PollEventId && o.PollOptionId == v.PollOptionId).Count())
                     }).Where(o => o.PollEventId == e.PollEventId).ToList()
                 }).Where(e => e.EventGuid == pollGuid).First();
         }

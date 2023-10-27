@@ -7,9 +7,11 @@ namespace Service
     public class PollEventService : IPollEventService
     {
         private readonly IPollRepository _repository;
-        public PollEventService(IPollRepository pollRepository)
+        private readonly NetworkService _networkService;
+        public PollEventService(IPollRepository pollRepository, NetworkService networkService)
         {
             _repository = pollRepository;
+            _networkService = networkService;
         }
 
         public PollEvent GetPollEventByGuid(Guid pollGuid)
@@ -29,7 +31,8 @@ namespace Service
 
         public PollEventDto GetPollEventDtoByGuid(Guid pollEventGuid)
         {
-            return _repository.GetPollEventDtoByGuid(pollEventGuid);
+            string clientIp = _networkService.GetClientIp();
+            return _repository.GetPollEventDtoByGuid(pollEventGuid, clientIp);
         }
 
         public PollEvent CreatePollEvent(PollEvent pollEvent)

@@ -34,6 +34,12 @@ namespace PollApi
             builder.Services.AddScoped<IPollVoteRepository, PollVoteRepository>();
             builder.Services.AddScoped<IPollVoteService, PollVoteService>();
             builder.Services.AddScoped<EmailService, EmailService>();
+            builder.Services.AddScoped<NetworkService, NetworkService>();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.Configure<ForwardedHeadersOptions>(cfg =>
+            {
+                cfg.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+            });
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
@@ -91,7 +97,7 @@ namespace PollApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");

@@ -11,10 +11,13 @@ namespace Dal
             _context = context;
         }
 
-        public PollVote CreateVote(PollVote pollVote)
+        public PollVote CreateVote(PollVote pollVote, string clientIp)
         {
-            _context.Votes.Add(pollVote);
-            _context.SaveChanges();
+            if(!_context.Votes.Any(v => v.IpAddress == clientIp))
+            {
+                _context.Votes.Add(pollVote);
+                _context.SaveChanges();
+            }
             return pollVote;
         }
 

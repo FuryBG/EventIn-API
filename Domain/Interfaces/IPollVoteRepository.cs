@@ -4,7 +4,7 @@ namespace Domain.Interfaces
 {
     public interface IPollVoteRepository
     {
-        public PollVote CreateVote(PollVote pollVote);
+        public PollVote CreateVote(PollVote pollVote, string clientIp);
         public PollVote UpdateVote(PollVote pollVote);
     }
 }
