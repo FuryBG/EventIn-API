@@ -3,6 +3,7 @@ using Dal;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PollApi.Filters;
@@ -19,7 +20,10 @@ namespace PollApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddSignalR(options =>
+            {
+                options.AddFilter<HubExceptionFilter>();
+            });
             builder.Services.AddControllers(cfg =>
             {
                 cfg.Filters.Add(typeof(ExceptionFilter));
@@ -88,7 +92,6 @@ namespace PollApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
-            builder.Services.AddSignalR();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

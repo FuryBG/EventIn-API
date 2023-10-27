@@ -17,7 +17,12 @@ namespace Service
         {
             string clientIp = _networkService.GetClientIp();
             pollVote.IpAddress = clientIp;
-            return _repository.CreateVote(pollVote, clientIp);
+            _repository.CreateVote(pollVote, clientIp);
+            if(pollVote.PollVoteId == 0)
+            {
+                throw new Exception($"Client with IP Address: {clientIp} tried to vote again on Poll with ID: {pollVote.PollEventId}");
+            }
+            return pollVote;
         }
 
         public PollVote UpdateVote(PollVote pollVote)
