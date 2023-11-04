@@ -21,6 +21,17 @@ namespace Dal
             return pollVote;
         }
 
+        public void DeleteEventVotes(int pollEventId, int userId)
+        {
+            if(!_context.Events.Any(ev => ev.PollEventId == pollEventId && ev.UserId == userId))
+            {
+                throw new Exception("You cannot reset votes on events what are not yours!");
+            }
+            List<PollVote> votes = _context.Votes.Where(vote => vote.PollEventId == pollEventId).ToList();
+            _context.Votes.RemoveRange(votes);
+            _context.SaveChanges();
+        }
+
         public PollVote UpdateVote(PollVote pollVote)
         {
             _context.Votes.Update(pollVote);

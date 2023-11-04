@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Security.Claims;
 
 namespace Service
 {
@@ -19,6 +20,16 @@ namespace Service
                 ipAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList[2].ToString();
             }
             return ipAddress;
+        }
+
+        public int GetClientId()
+        {
+            bool haveUserId = int.TryParse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int userId);
+            if(!haveUserId)
+            {
+                throw new Exception("Cannot get UserId of currently logged user.");
+            }
+            return userId;
         }
     }
 }

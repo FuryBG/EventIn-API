@@ -6,5 +6,6 @@ namespace Domain.Interfaces
     {
         public PollVote CreateVote(PollVote pollVote);
         public PollVote UpdateVote(PollVote pollVote);
+        public void DeleteEventVotes(int pollEventId);
     }
 }

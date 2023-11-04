@@ -17,17 +17,26 @@ namespace PollApi.Controllers
         {
             _pollVoteService = pollEventService;
         }
+        [Authorize]
         [HttpPost("CreateVote")]
         public IActionResult CreateVote(PollVote pollVote)
         {
             PollVote vote = _pollVoteService.CreateVote(pollVote);
             return Ok(vote);
         }
+        [Authorize]
         [HttpPost("UpdateVote")]
         public IActionResult UpdateVote(PollVote pollVote)
         {
             PollVote vote = _pollVoteService.UpdateVote(pollVote);
             return Ok(vote);
+        }
+        [Authorize]
+        [HttpGet("ResetVotes")]
+        public IActionResult ResetVotes(int pollEventId)
+        {
+            _pollVoteService.DeleteEventVotes(pollEventId);
+            return Ok();
         }
     }
 }

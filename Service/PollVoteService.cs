@@ -25,6 +25,12 @@ namespace Service
             return pollVote;
         }
 
+        public void DeleteEventVotes(int pollEventId)
+        {
+            int userId = _networkService.GetClientId();
+            _repository.DeleteEventVotes(pollEventId, userId);
+        }
+
         public PollVote UpdateVote(PollVote pollVote)
         {
             return _repository.UpdateVote(pollVote);
