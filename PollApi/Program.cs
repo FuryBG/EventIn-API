@@ -20,6 +20,7 @@ namespace PollApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllersWithViews();
             builder.Services.AddSignalR(options =>
             {
                 options.AddFilter<HubExceptionFilter>();
@@ -106,12 +107,14 @@ namespace PollApi
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<PollHub>("/poll-event");
             });
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             app.Run();
         }
     }
