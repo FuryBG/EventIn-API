@@ -5,22 +5,33 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace PollApi.Controllers
+namespace PollApi.Controllers.MVC
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         private readonly IAuthService _authService;
         public AccountController(IAuthService authService)
         {
             _authService = authService;
         }
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
         [HttpPost("Login")]
         public IActionResult Login(LoginUserDto loginUser)
         {
-            Response.Cookies.Append("at", _authService.BuildUserToken(loginUser), new CookieOptions() { HttpOnly = true, Secure = true, SameSite = SameSiteMode.Strict });
-            return Ok();
+            try
+            {
+                Response.Cookies.Append("at", _authService.BuildUserToken(loginUser), new CookieOptions() { HttpOnly = true, Secure = true, SameSite = SameSiteMode.Strict });
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View();
+            }
         }
         [HttpPost("Register")]
         public IActionResult Register(RegisterUserDto registerUser)
