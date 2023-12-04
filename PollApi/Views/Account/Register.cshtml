@@ -1,3 +1,41 @@
-﻿@{
-}
-<h1>Register</h1>
+﻿<div class="login-page">
+    @Html.Partial("_Aside")
+    <div class='login-container'>
+        <div class='form-container'>
+            <span>Log in to your account</span>
+            <form asp-controller="Account" asp-action="Register" method="post">
+                @{
+                    if (ViewBag.ErrorMessage != null)
+                    {
+                        <span class='error'>@ViewBag.ErrorMessage</span>
+                    }
+                }
+                <div class='input-container'>
+                    <label>Email:</label>
+                    <input type="email" />
+                </div>
+                <div class='input-container'>
+                    <label>First Name:</label>
+                    <input type="text" />
+                </div>
+                <div class='input-container'>
+                    <label>Last Name:</label>
+                    <input typeof="text" />
+                </div>
+                <div class='input-container'>
+                    <label>Password:</label>
+                    <input type="password" />
+                </div>
+                <div class='input-container'>
+                    <label>Re-Password:</label>
+                    <input type="password" />
+                </div>
+                <div>
+                    <a href="/auth/login">Already have account?</a>
+                </div>
+                <button class="c-button">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+<link href="~/css/login.css" rel="stylesheet" />

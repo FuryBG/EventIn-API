@@ -36,11 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Partials\" />
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="compilerconfig.json" />
+    <Folder Include="Views\Partials\" />
   </ItemGroup>
 
 </Project>

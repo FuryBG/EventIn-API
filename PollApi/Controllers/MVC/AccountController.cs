@@ -25,7 +25,7 @@ namespace PollApi.Controllers.MVC
             try
             {
                 Response.Cookies.Append("at", _authService.BuildUserToken(loginUser), new CookieOptions() { HttpOnly = true, Secure = true, SameSite = SameSiteMode.Strict });
-                return View();
+                return Redirect("https://localhost:5173/");
             }
             catch (Exception ex)
             {
@@ -33,11 +33,24 @@ namespace PollApi.Controllers.MVC
                 return View();
             }
         }
+        [HttpGet("Register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
         [HttpPost("Register")]
         public IActionResult Register(RegisterUserDto registerUser)
         {
-            _authService.UserRegister(registerUser);
-            return Created("", "Successful Registration! We sent you, an activation link on your email.");
+            try
+            {
+                _authService.UserRegister(registerUser);
+                return View();
+            }
+            catch(Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View();
+            }
         }
         [HttpGet("Logout")]
         public IActionResult Logout()

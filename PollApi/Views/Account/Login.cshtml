@@ -1,20 +1,9 @@
 ﻿<div class="login-page">
-    <div class='aside'>
-        <div class='aside-information'>
-            <a href="/">
-                <img src='~/img/logo.png' />
-            </a>
-            <p>The best way to interact with all the participants on your event!</p>
-            <div class='aside-footer'>
-                <span>FB</span>
-                <span>INST</span>
-            </div>
-        </div>
-    </div>
+    @Html.Partial("_Aside");
     <div class='login-container'>
         <div class='form-container'>
             <span>Log in to your account</span>
-            <form asp-controller="acctount" asp-action="Login" method="post">
+            <form asp-controller="account" asp-action="Login" method="post">
                 @{
                     if (ViewBag.ErrorMessage != null)
                     {
@@ -32,7 +21,7 @@
                 <div>
                     <a href="/auth/forgotpassword">Forgot password?</a>
                 </div>
-                <button type="submit">Login</button>
+                <button class="c-button" type="submit">Login</button>
             </form>
         </div>
     </div>

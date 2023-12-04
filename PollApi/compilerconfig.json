@@ -6,5 +6,13 @@
   {
     "outputFile": "wwwroot/css/site.css",
     "inputFile": "wwwroot/css/site.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/button.css",
+    "inputFile": "wwwroot/css/button.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/aside.css",
+    "inputFile": "wwwroot/css/aside.scss"
   }
 ]

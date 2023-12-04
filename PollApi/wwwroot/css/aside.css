@@ -1,0 +1,20 @@
+﻿.aside {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  background-color: purple;
+  box-shadow: 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.1);
+}
+.aside .aside-information {
+  padding: 1rem;
+  text-align: center;
+  color: white;
+}
+.aside .aside-footer {
+  color: white;
+  position: fixed;
+  width: 30%;
+  bottom: 2rem;
+  left: 0;
+}
