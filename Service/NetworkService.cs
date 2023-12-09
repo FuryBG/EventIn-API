@@ -15,10 +15,10 @@ namespace Service
         {
             string ipAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
             
-            if(ipAddress == "::1")
-            {
-                ipAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList[2].ToString();
-            }
+            //if(ipAddress == "::1")
+            //{
+            //    ipAddress = Dns.GetHostEntry(Dns.GetHostName()).AddressList[2].ToString();
+            //}
             return ipAddress;
         }
 

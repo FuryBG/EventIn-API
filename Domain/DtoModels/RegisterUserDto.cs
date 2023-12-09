@@ -5,11 +5,12 @@ namespace Domain.DtoModels
 {
     public class RegisterUserDto : LoginUserDto
     {
-        [Required]
+        [Required(ErrorMessage = "This field is required!")]
         public string FirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "This field is required!")]
         public string LastName { get; set; }
-        [Compare("Password")]
+        [Required(ErrorMessage = "This field is required!")]
+        [Compare("Password", ErrorMessage = "Passwords must match!")]
         public string RepeatPassword { get; set; }
 
         public static User RegisterUserToUser(RegisterUserDto registerUser)

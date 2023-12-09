@@ -14,5 +14,9 @@
   {
     "outputFile": "wwwroot/css/aside.css",
     "inputFile": "wwwroot/css/aside.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/activate.css",
+    "inputFile": "wwwroot/css/activate.scss"
   }
 ]

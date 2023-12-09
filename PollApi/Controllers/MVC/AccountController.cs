@@ -68,7 +68,7 @@ namespace PollApi.Controllers.MVC
                 return View();
             }
         }
-        [HttpGet("Logout")]
+        [HttpGet]
         public IActionResult Logout()
         {
             Response.Cookies.Delete("at");

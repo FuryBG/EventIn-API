@@ -5,11 +5,11 @@
 
 <div class="activate">
     <div class="logo">
-
+        <img src="~/img/logo.png"/>
     </div>
     <div class="message">
         @{
-            if(Model == null)
+            if(Model != null)
             {
                 <h1>Successfully activated account!</h1>
             }
@@ -20,6 +20,7 @@
         }
     </div>
     <div class="links">
-        <a href="/account/login"></a>
+        <a href="/account/login">Go to Sign In</a>
     </div>
 </div>
+<link href="~/css/activate.css" rel="stylesheet" />
