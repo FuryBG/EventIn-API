@@ -1,4 +1,6 @@
-﻿<div class="login-page">
+﻿@model Domain.DtoModels.RegisterUserDto;
+
+<div class="login-page">
     @Html.Partial("_Aside")
     <div class='login-container'>
         <div class='form-container'>
@@ -11,27 +13,42 @@
                     }
                 }
                 <div class='input-container'>
-                    <label>Email:</label>
-                    <input type="email" />
+                    <label>Email</label>
+                    <input type="email" name="Email" />
+                </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.Email)
                 </div>
                 <div class='input-container'>
-                    <label>First Name:</label>
-                    <input type="text" />
+                    <label>First Name</label>
+                    <input type="text" name="FirstName" />
+                </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.FirstName)
                 </div>
                 <div class='input-container'>
-                    <label>Last Name:</label>
-                    <input typeof="text" />
+                    <label>Last Name</label>
+                    <input type="text" name="LastName" />
+                </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.LastName)
                 </div>
                 <div class='input-container'>
-                    <label>Password:</label>
-                    <input type="password" />
+                    <label>Password</label>
+                    <input type="password" name="Password" />
+                </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.Password)
                 </div>
                 <div class='input-container'>
-                    <label>Re-Password:</label>
-                    <input type="password" />
+                    <label>Re Pass</label>
+                    <input type="password" name="RepeatPassword" />
+                </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.RepeatPassword)
                 </div>
                 <div>
-                    <a href="/auth/login">Already have account?</a>
+                    <a href="/account/login">Already have account?</a>
                 </div>
                 <button class="c-button">Register</button>
             </form>

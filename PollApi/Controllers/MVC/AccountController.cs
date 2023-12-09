@@ -10,45 +10,61 @@ namespace PollApi.Controllers.MVC
     public class AccountController : Controller
     {
         private readonly IAuthService _authService;
-        public AccountController(IAuthService authService)
+        private readonly IConfiguration _configuration;
+        public AccountController(IAuthService authService, IConfiguration configuration)
         {
             _authService = authService;
+            _configuration = configuration;
         }
-        [HttpGet("Login")]
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
-        [HttpPost("Login")]
+        [HttpPost]
         public IActionResult Login(LoginUserDto loginUser)
         {
-            try
+            if (ModelState.IsValid)
             {
-                Response.Cookies.Append("at", _authService.BuildUserToken(loginUser), new CookieOptions() { HttpOnly = true, Secure = true, SameSite = SameSiteMode.Strict });
-                return Redirect("https://localhost:5173/");
+                try
+                {
+                    Response.Cookies.Append("at", _authService.BuildUserToken(loginUser), new CookieOptions() { HttpOnly = true, Secure = true, SameSite = SameSiteMode.None });
+                    return Redirect(_configuration["FrontEndApplicationUrl"]);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                    return View();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                ViewBag.ErrorMessage = ex.Message;
                 return View();
             }
         }
-        [HttpGet("Register")]
+        [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return View(new RegisterUserDto());
         }
-        [HttpPost("Register")]
+        [HttpPost]
         public IActionResult Register(RegisterUserDto registerUser)
         {
-            try
+            if (ModelState.IsValid)
             {
-                _authService.UserRegister(registerUser);
-                return View();
+                try
+                {
+                    _authService.UserRegister(registerUser);
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = ex.Message;
+                    return View();
+                }
             }
-            catch(Exception ex)
+            else
             {
-                ViewBag.ErrorMessage = ex.Message;
                 return View();
             }
         }
@@ -59,18 +75,25 @@ namespace PollApi.Controllers.MVC
             return Ok();
         }
         [Authorize]
-        [HttpGet("GetUser")]
+        [HttpGet]
         public IActionResult GetUser()
         {
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             User user = _authService.GetUserById(userId);
             return Ok(user);
         }
-        [HttpGet("Activate")]
+        [HttpGet]
         public IActionResult Activate(string activateHash)
         {
-            User user = _authService.ActivateUser(activateHash);
-            return Ok("Activation Successful");
+            try
+            {
+                User user = _authService.ActivateUser(activateHash);
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
         }
     }
 }

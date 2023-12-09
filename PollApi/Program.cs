@@ -52,7 +52,7 @@ namespace PollApi
                     builder.AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials()
-                           .WithOrigins("http://localhost:4200", "http://localhost:3000", "https://localhost:5173", "https://192.168.0.131:5173");
+                           .WithOrigins("http://localhost:5173", "http://localhost:3000", "https://localhost:5173", "https://192.168.0.131:5173");
                 });
             });
             builder.Services.Configure<ApiBehaviorOptions>(options =>

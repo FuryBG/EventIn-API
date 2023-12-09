@@ -29,13 +29,21 @@
             form {
                 text-align: end;
 
-                > .error {
+                > .validation-error {
+                    padding: 0.5rem;
                     color: red;
                 }
 
                 .input-container {
                     display: flex;
                     align-items: baseline;
+
+                    input {
+                        border: none;
+                        outline: none;
+                        border-bottom: 2px solid purple;
+                        height: 1.5rem;
+                    }
 
                     label {
                         width: 5rem;

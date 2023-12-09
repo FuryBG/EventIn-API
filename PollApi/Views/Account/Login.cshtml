@@ -1,4 +1,6 @@
-﻿<div class="login-page">
+﻿@model Domain.DtoModels.LoginUserDto;
+
+<div class="login-page">
     @Html.Partial("_Aside");
     <div class='login-container'>
         <div class='form-container'>
@@ -11,12 +13,18 @@
                     }
                 }
                 <div class='input-container'>
-                    <label>Email:</label>
+                    <label>Email</label>
                     <input type="email" name="Email" />
                 </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.Email)
+                </div>
                 <div class='input-container'>
-                    <label>Password:</label>
+                    <label>Password</label>
                     <input type="password" name="Password" />
+                </div>
+                <div class="validation-error">
+                    @Html.ValidationMessageFor(x => x.Password)
                 </div>
                 <div>
                     <a href="/auth/forgotpassword">Forgot password?</a>

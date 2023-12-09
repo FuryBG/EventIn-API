@@ -1,0 +1,25 @@
+﻿@model Domain.Models.User;
+@{
+    Layout = null;
+}
+
+<div class="activate">
+    <div class="logo">
+
+    </div>
+    <div class="message">
+        @{
+            if(Model == null)
+            {
+                <h1>Successfully activated account!</h1>
+            }
+            else
+            {
+                <h1>Something went wrong during activation!</h1>
+            }
+        }
+    </div>
+    <div class="links">
+        <a href="/account/login"></a>
+    </div>
+</div>

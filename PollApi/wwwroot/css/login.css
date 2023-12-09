@@ -27,12 +27,19 @@
 .login-page .login-container .form-container form {
   text-align: end;
 }
-.login-page .login-container .form-container form > .error {
+.login-page .login-container .form-container form > .validation-error {
+  padding: 0.5rem;
   color: red;
 }
 .login-page .login-container .form-container form .input-container {
   display: flex;
   align-items: baseline;
+}
+.login-page .login-container .form-container form .input-container input {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid purple;
+  height: 1.5rem;
 }
 .login-page .login-container .form-container form .input-container label {
   width: 5rem;
