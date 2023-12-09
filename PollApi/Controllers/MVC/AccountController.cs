@@ -45,7 +45,7 @@ namespace PollApi.Controllers.MVC
         [HttpGet]
         public IActionResult Register()
         {
-            return View(new RegisterUserDto());
+            return View();
         }
         [HttpPost]
         public IActionResult Register(RegisterUserDto registerUser)
