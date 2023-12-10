@@ -9,13 +9,13 @@
     </div>
     <div class="message">
         @{
-            if(Model != null)
+            if(ViewBag.Error != null)
             {
-                <h1>Successfully activated account!</h1>
+                <h1>@ViewBag.Error</h1>
             }
             else
             {
-                <h1>Something went wrong during activation!</h1>
+                <h1>Successfully activated account!</h1>
             }
         }
     </div>

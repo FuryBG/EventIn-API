@@ -8,8 +8,8 @@ namespace Service
     {
         public void SendEmail(string message, string to)
         {
-            MailMessage mailmessage = new MailMessage("denis.belqta111@gmail.com", to);
-            mailmessage.Subject = "PollApi - Account Activation";
+            MailMessage mailmessage = new MailMessage("office@eventin.com", to);
+            mailmessage.Subject = "EventIn - Account Activation";
             mailmessage.Body = message;
             mailmessage.BodyEncoding = Encoding.UTF8;
             mailmessage.IsBodyHtml = true;

@@ -53,6 +53,7 @@ namespace Service
         public User ActivateUser(string userHash)
         {
             User user = _authPollRepository.GetInactiveUserByActiveHash(userHash);
+            if (user.Active) throw new Exception("This user is already activated!");
             user.Active = true;
             return _authPollRepository.UpdateUser(user);
         }

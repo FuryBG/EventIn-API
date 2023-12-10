@@ -88,10 +88,11 @@ namespace PollApi.Controllers.MVC
             try
             {
                 User user = _authService.ActivateUser(activateHash);
-                return View(user);
+                return View();
             }
             catch (Exception ex)
             {
+                ViewBag.Error = ex.Message;
                 return View();
             }
         }
