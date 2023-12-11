@@ -1,0 +1,1 @@
+﻿header{margin:1rem;border-bottom:3px solid #a200ff;}header nav{display:flex;align-items:center;justify-content:space-around;}header nav a{text-decoration:none;color:#000;}header nav>.auth-buttons{display:flex;gap:1rem;align-items:center;}header nav>.auth-buttons .sign-up{background:#800080;color:#fff;padding:.5rem;}

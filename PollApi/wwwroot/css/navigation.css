@@ -1,0 +1,23 @@
+﻿header {
+  margin: 1rem;
+  border-bottom: 3px solid #a200ff;
+}
+header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+header nav a {
+  text-decoration: none;
+  color: black;
+}
+header nav > .auth-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+header nav > .auth-buttons .sign-up {
+  background: purple;
+  color: white;
+  padding: 0.5rem;
+}

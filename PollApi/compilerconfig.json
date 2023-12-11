@@ -18,5 +18,9 @@
   {
     "outputFile": "wwwroot/css/activate.css",
     "inputFile": "wwwroot/css/activate.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/navigation.css",
+    "inputFile": "wwwroot/css/navigation.scss"
   }
 ]
