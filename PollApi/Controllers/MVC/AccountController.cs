@@ -16,11 +16,13 @@ namespace PollApi.Controllers.MVC
             _authService = authService;
             _configuration = configuration;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Login(LoginUserDto loginUser)
         {
@@ -42,11 +44,13 @@ namespace PollApi.Controllers.MVC
                 return View();
             }
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Register(RegisterUserDto registerUser)
         {
@@ -55,7 +59,7 @@ namespace PollApi.Controllers.MVC
                 try
                 {
                     _authService.UserRegister(registerUser);
-                    return View();
+                    return RedirectToAction("SuccessfulRegistration");
                 }
                 catch (Exception ex)
                 {
@@ -68,6 +72,13 @@ namespace PollApi.Controllers.MVC
                 return View();
             }
         }
+
+        [HttpGet]
+        public IActionResult SuccessfulRegistration()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Logout()
         {
@@ -82,6 +93,7 @@ namespace PollApi.Controllers.MVC
             User user = _authService.GetUserById(userId);
             return Ok(user);
         }
+
         [HttpGet]
         public IActionResult Activate(string activateHash)
         {
