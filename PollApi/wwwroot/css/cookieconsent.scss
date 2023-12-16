@@ -1,0 +1,30 @@
+﻿@use 'button';
+
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    width: 100%;
+    border-top: 3px solid purple;
+    display: flex;
+    justify-content: space-between;
+
+    > p {
+        padding: 0 1rem;
+        align-self: center;
+    }
+
+    > div {
+        padding: 1rem;
+        align-self: center;
+    }
+
+    @media (max-width: 700px) {
+        flex-direction: column;
+        display: block;
+
+        > div {
+            text-align: end;
+        }
+    }
+}

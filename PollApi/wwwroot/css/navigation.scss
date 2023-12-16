@@ -1,25 +1,80 @@
-﻿header {
+﻿@use 'button';
+
+header {
     margin: 1rem;
-    border-bottom: 3px solid #a200ff;
+    border-bottom: 3px solid purple;
 
     nav {
         display: flex;
         align-items: center;
         justify-content: space-around;
+
         a {
             text-decoration: none;
             color: black;
         }
-        > .auth-buttons {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
 
-            .sign-up {
-                background: purple;
-                color: white;
-                padding: 0.5rem
+        > .nav-buttons {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        > .hamburger-container {
+            display: none;
+
+            .hamburger:before {
+                font-family: 'icomoon';
+                content: "\e9bd";
+                cursor: pointer;
+                color: purple;
             }
+        }
+    }
+
+    .mobile-nav {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: white;
+        z-index: 1;
+        transition: all 0.5s;
+
+        .mobile-nav-content {
+            > .exit-button {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+            }
+
+            > .exit-button:before {
+                position: absolute;
+                font-family: 'icomoon';
+                content: "\ea0f";
+                cursor: pointer;
+                color: purple;
+            }
+
+            padding: 1rem;
+            text-align: center;
+
+            > .mobile-nav-buttons {
+                > .mobile-button {
+                    padding: 0.5rem 0;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 700px) {
+        > nav > .nav-buttons {
+            display: none;
+        }
+
+        > nav > .hamburger-container {
+            display: block;
         }
     }
 }

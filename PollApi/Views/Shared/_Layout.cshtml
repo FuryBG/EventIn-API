@@ -6,8 +6,18 @@
     <title>EventIn</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/button.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/cookieconsent.css" />
 </head>
 <body>
+    @RenderSection("Styles", false)
     @RenderBody()
+    @RenderSection("Scripts", false)
+    <div class="cookie-consent">
+        <p>We use ‘cookies’ to customize the content and ensure the proper functioning of the website. By continuing to use it, you agree with the use of these technologies. For more information, please read the "Cookies Policy" of the EventIn.</p>
+        <div>
+            <button class="c-button">ACCEPT</button>
+        </div>
+    </div>
+    <script src="~/scripts/site.js"></script>
 </body>
 </html>

@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/css/navigation.css",
     "inputFile": "wwwroot/css/navigation.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/cookieconsent.css",
+    "inputFile": "wwwroot/css/cookieconsent.scss"
   }
 ]

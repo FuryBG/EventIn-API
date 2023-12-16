@@ -1,6 +1,15 @@
-﻿header {
+﻿.c-button {
+  background-color: purple;
+  color: white;
+  padding: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+
+header {
   margin: 1rem;
-  border-bottom: 3px solid #a200ff;
+  border-bottom: 3px solid purple;
 }
 header nav {
   display: flex;
@@ -11,13 +20,54 @@ header nav a {
   text-decoration: none;
   color: black;
 }
-header nav > .auth-buttons {
+header nav > .nav-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
 }
-header nav > .auth-buttons .sign-up {
-  background: purple;
-  color: white;
-  padding: 0.5rem;
+header nav > .hamburger-container {
+  display: none;
+}
+header nav > .hamburger-container .hamburger:before {
+  font-family: "icomoon";
+  content: "\e9bd";
+  cursor: pointer;
+  color: purple;
+}
+header .mobile-nav {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: white;
+  z-index: 1;
+  transition: all 0.5s;
+}
+header .mobile-nav .mobile-nav-content {
+  padding: 1rem;
+  text-align: center;
+}
+header .mobile-nav .mobile-nav-content > .exit-button {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+header .mobile-nav .mobile-nav-content > .exit-button:before {
+  position: absolute;
+  font-family: "icomoon";
+  content: "\ea0f";
+  cursor: pointer;
+  color: purple;
+}
+header .mobile-nav .mobile-nav-content > .mobile-nav-buttons > .mobile-button {
+  padding: 0.5rem 0;
+}
+@media (max-width: 700px) {
+  header > nav > .nav-buttons {
+    display: none;
+  }
+  header > nav > .hamburger-container {
+    display: block;
+  }
 }

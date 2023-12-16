@@ -1,0 +1,35 @@
+﻿.c-button {
+  background-color: purple;
+  color: white;
+  padding: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+}
+
+.cookie-consent {
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  border-top: 3px solid purple;
+  display: flex;
+  justify-content: space-between;
+}
+.cookie-consent > p {
+  padding: 0 1rem;
+  align-self: center;
+}
+.cookie-consent > div {
+  padding: 1rem;
+  align-self: center;
+}
+@media (max-width: 700px) {
+  .cookie-consent {
+    flex-direction: column;
+    display: block;
+  }
+  .cookie-consent > div {
+    text-align: end;
+  }
+}
