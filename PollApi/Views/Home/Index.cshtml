@@ -1,3 +1,14 @@
 ﻿@Html.Partial("Navigation")
-<h1>Landing</h1>
-@Html.Partial("Footer")
+<div class="home">
+    <div class="section-first">
+        <h1>Interact with your participants easy!</h1>
+        <p>Get in touch with your participants with live polls</p>
+        <button class="c-button">
+            <a href="/account/register">START FREE</a>
+        </button>
+    </div>
+</div>
+@section Styles {
+    <link href="~/css/navigation.css" rel="stylesheet">
+    <link href="~/css/home.css" rel="stylesheet">
+}

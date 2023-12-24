@@ -6,6 +6,10 @@
   border: none;
   cursor: pointer;
 }
+.c-button a {
+  color: white;
+  text-decoration: none;
+}
 
 .cookie-consent {
   position: fixed;
@@ -13,7 +17,7 @@
   background-color: white;
   width: 100%;
   border-top: 3px solid purple;
-  display: flex;
+  display: none;
   justify-content: space-between;
 }
 .cookie-consent > p {

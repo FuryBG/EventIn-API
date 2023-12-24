@@ -13,6 +13,8 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
   font-family: Roboto;
+}
+body main {
+  height: 100vh;
 }

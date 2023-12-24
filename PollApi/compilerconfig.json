@@ -26,5 +26,13 @@
   {
     "outputFile": "wwwroot/css/cookieconsent.css",
     "inputFile": "wwwroot/css/cookieconsent.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/footer.css",
+    "inputFile": "wwwroot/css/footer.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/home.css",
+    "inputFile": "wwwroot/css/home.scss"
   }
 ]

@@ -6,6 +6,10 @@
   border: none;
   cursor: pointer;
 }
+.c-button a {
+  color: white;
+  text-decoration: none;
+}
 
 header {
   margin: 1rem;
