@@ -19,11 +19,12 @@
 
 // Cookie Consent
 (function () {
-    let consentCookie = document.cookie.includes("consent");
+    let consentCookie = localStorage.getItem("consent");
     if (!consentCookie) {
         let consentSection = document.querySelector(".cookie-consent");
         consentSection.style.display = "flex";
         consentSection.querySelector(".c-button").addEventListener("click", () => {
+            localStorage.setItem("consent", "true");
             document.cookie += "consent=true;";
             consentSection.style.display = "none";
         });

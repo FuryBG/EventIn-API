@@ -68,20 +68,20 @@ namespace PollApi
             });
             builder.Services.AddAuthentication().AddJwtBearer(options =>
             {
-                //options.Events = new JwtBearerEvents
-                //{
-                //    OnMessageReceived = context =>
-                //    {
-                //        context.Token = context.Request.Cookies["at"];
-                //        return Task.CompletedTask;
-                //    },
-                //    OnAuthenticationFailed = context =>
-                //    {
-                //        context.Response.Redirect("account/login");
-                //        return Task.CompletedTask;
-                //    }
-                    
-                //};
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        context.Token = context.Request.Cookies["at"];
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        context.Response.Redirect("account/login");
+                        return Task.CompletedTask;
+                    }
+
+                };
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
