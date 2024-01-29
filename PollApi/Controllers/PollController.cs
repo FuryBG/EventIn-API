@@ -2,6 +2,7 @@
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Contracts;
 using System.Security.Claims;
 
 namespace PollApi.Controllers
@@ -11,9 +12,11 @@ namespace PollApi.Controllers
     public class PollController : Controller
     {
         private readonly IPollEventService _eventService;
-        public PollController(IPollEventService pollEventService)
+        private readonly IQRCodeGeneratorService _qrCodeService;
+        public PollController(IPollEventService pollEventService, IQRCodeGeneratorService qrCodeService)
         {
             _eventService = pollEventService;
+            _qrCodeService = qrCodeService;
         }
         [Authorize]
         [HttpGet("GetAllUserPolls")]
@@ -24,9 +27,9 @@ namespace PollApi.Controllers
             return Ok(pollEvents);
         }
         [HttpGet("GetPollByGuid")]
-        public IActionResult GetPollByGuid(Guid id)
+        public IActionResult GetPollByGuid(Guid guid)
         {
-            PollEvent pollEvent = _eventService.GetPollEventByGuid(id);
+            PollEvent pollEvent = _eventService.GetPollEventByGuid(guid);
             return Ok(pollEvent);
         }
         [Authorize]
@@ -57,6 +60,14 @@ namespace PollApi.Controllers
         {
             _eventService.DeletePollEvent(pollId);
             return Ok();
+        }
+        [Authorize]
+        [HttpGet("GenerateQr")]
+        public IActionResult GenerateQr(Guid guid, string host, string path)
+        {
+            byte[] qrBytes = _qrCodeService.GenerateQRCode(guid, host, path);
+
+            return File(qrBytes, "image/jpeg", "QR.jpeg");
         }
     }
 }

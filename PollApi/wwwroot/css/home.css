@@ -1,3 +1,14 @@
 ﻿.home .section-first {
   text-align: center;
 }
+.home .section-second {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem;
+  justify-content: center;
+}
+.home .section-second > div > img {
+  height: auto;
+  width: 100%;
+}

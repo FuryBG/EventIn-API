@@ -25,7 +25,6 @@
         consentSection.style.display = "flex";
         consentSection.querySelector(".c-button").addEventListener("click", () => {
             localStorage.setItem("consent", "true");
-            document.cookie += "consent=true;";
             consentSection.style.display = "none";
         });
     }

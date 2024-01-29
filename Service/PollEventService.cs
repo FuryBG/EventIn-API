@@ -1,6 +1,7 @@
 ﻿using Domain.DtoModels;
 using Domain.Interfaces;
 using Domain.Models;
+using QRCoder;
 
 namespace Service
 {

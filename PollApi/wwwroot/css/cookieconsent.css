@@ -31,7 +31,6 @@
 @media (max-width: 700px) {
   .cookie-consent {
     flex-direction: column;
-    display: block;
   }
   .cookie-consent > div {
     text-align: end;

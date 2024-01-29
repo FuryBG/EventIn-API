@@ -2,4 +2,19 @@
     .section-first {
         text-align: center;
     }
+
+    .section-second {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 1rem;
+        justify-content: center;
+
+        > div {
+            > img {
+                height: auto;
+                width: 100%;
+            }
+        }
+    }
 }

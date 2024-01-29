@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using PollApi.Filters;
 using PollApi.Hubs;
 using Service;
+using Service.Contracts;
 using System.Text;
 
 namespace PollApi
@@ -38,6 +39,7 @@ namespace PollApi
             builder.Services.AddScoped<IPollEventService, PollEventService>();
             builder.Services.AddScoped<IPollVoteRepository, PollVoteRepository>();
             builder.Services.AddScoped<IPollVoteService, PollVoteService>();
+            builder.Services.AddScoped<IQRCodeGeneratorService, QRCodeGeneratorService>();
             builder.Services.AddScoped<EmailService, EmailService>();
             builder.Services.AddScoped<NetworkService, NetworkService>();
             builder.Services.AddHttpContextAccessor();
